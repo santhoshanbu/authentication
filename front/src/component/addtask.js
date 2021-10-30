@@ -10,13 +10,13 @@ function Addtask() {
     const [id, setid] = useState('')
     const [loginerror, updateloginerror] = useState(false)
     const [signuperror, updatesignuperror] = useState(false)
-    const [a,b] = useState([])
+    const [a, b] = useState([])
     let history = useHistory();
 
     async function names() {
         try {
             let getdata = await axios.get('http://localhost:8000/api');
-            let datas=getdata.data
+            let datas = getdata.data
             b(datas)
             console.log(a)
         } catch (e) {
@@ -26,53 +26,58 @@ function Addtask() {
     useEffect(() => { names() }, [name])
     const logindata = () => {
 
+        if (!a.length) {
+            return updatesignuperror(true)
+        }
+        let count = 0;
         a.map((item) => {
+            count = count + 1;
             if (item.Department === name && item.Employee === id) {
+                count = 0;
                 const storage = { dep: name, emp: id }
                 sessionStorage.setItem('user', JSON.stringify(storage))
                 updatename('')
                 setid('')
                 history.push('/second')
             }
-            if (item.Department !== name || item.Employee !== id) {
-                // alert('Already exist')
-                updateloginerror(true)
-            }
         })
+        if (count === a.length) {
+            return updatesignuperror(true)
+        }
     }
     const signupdata = () => {
-        let count=0;
+        let count = 0;
         if (a.length) {
             a.map((item) => {
                 if (item.Department === name && item.Employee === id) {
                     return updatesignuperror(true)
                 }
-            count=count+1;
-            console.log(a.length,count)
-            if(count===a.length) {  
-                if (name.trim() !== '' && id.trim() !== '') {
-                    count=0;
-                    const storage = { dep: name, emp: id }
-                    sessionStorage.setItem('user', JSON.stringify(storage))
-                    axios.post('http://localhost:8000/api', {
-                        Department: name,
-                        Employee: id
-                    }).then(res => {
-                        updatename('')
-                        setid('')
-                    })
-                    swal({
-                        title: "Welcome!",
-                        text: "your account is created!",
-                        icon: "success",
-                        button: "Okk!",
-                    });
-                    history.push('/second')
+                count = count + 1;
+                console.log(a.length, count)
+                if (count === a.length) {
+                    if (name.trim() !== '' && id.trim() !== '') {
+                        count = 0;
+                        const storage = { dep: name, emp: id }
+                        sessionStorage.setItem('user', JSON.stringify(storage))
+                        axios.post('http://localhost:8000/api', {
+                            Department: name,
+                            Employee: id
+                        }).then(res => {
+                            updatename('')
+                            setid('')
+                        })
+                        swal({
+                            title: "Welcome!",
+                            text: "your account is created!",
+                            icon: "success",
+                            button: "Okk!",
+                        });
+                        history.push('/second')
+                    }
                 }
-            }
             })
 
-            
+
         }
 
         // empty array is won't map,so write a else condition 
