@@ -1,12 +1,12 @@
 const express = require('express');
-const Task = require('../models/models.js')
+const Request = require('../models/models2.js')
 const router = express.Router();
 const mongoose = require('mongoose');
 
 
 const getData=async(req, res) => {
     try{
-        const getCrud=await Task.find()
+        const getCrud=await Request.find()
         res.status(200).json(getCrud)
     }
     catch(err){
@@ -16,15 +16,18 @@ const getData=async(req, res) => {
  
 
 const postData=async(req, res) => {
-    const newCrud=await Task(req.body)
+    const newCrud = await Request(req.body)
+    
    try{
-      newCrud.save((err, data) => {
+    //    res.send(newCrud)
+    console.log('Params', newCrud);
+
+    newCrud.save((err, data) => {
         if(err){
             res.send({message: err})
         }
         res.send({message: 'Saved successfuly'})
     })
-
 
    }
    catch(err){
@@ -39,7 +42,7 @@ const updateData=async(req,res) => {
   
         if(!mongoose.Types.ObjectId.isValid(_id))
         return res.status(404).send('No Data with that ID') 
-        const updatedData=await Task.findByIdAndUpdate(_id,data,{new:true})
+        const updatedData=await Request.findByIdAndUpdate(_id,data,{new:true})
         res.status(200).json(updatedData)
 }
 
@@ -50,7 +53,7 @@ const deleteData=async(req,res) => {
   
         if(!mongoose.Types.ObjectId.isValid(_id))
         return res.status(404).send('No Data with that ID') 
-        const deletedData=await Task.findByIdAndDelete(_id,)
+        const deletedData=await Request.findByIdAndDelete(_id,)
         res.status(200).send('Successfully deleted')
 }
 router.get('/', getData)

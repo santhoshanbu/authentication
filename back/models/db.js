@@ -6,4 +6,3 @@ module.exports=mongoose.connect(dburl,(err)=>{
     console.log('sucessfully connect')
 })
 
-// ((item.Department !== name && item.Employee !== id)&&(name.trim() !== '' && id.trim() !== ''))
