@@ -80,10 +80,10 @@ input{
     display: flex;
 }
 .navbar{
-    padding-top: 50px;
-    text-align: center;
+    /* padding-top: 50px; */
+    /* text-align: center; */
     background-color: sandybrown;
-    width: 25%;
+    width: 20%;
     height: 100%;
 }
 .content{
