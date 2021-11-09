@@ -2,7 +2,7 @@ const express = require('express');
 const Request = require('../models/models2.js')
 const router = express.Router();
 const mongoose = require('mongoose');
-
+const nodemailer=require('nodemailer')
 
 const getData=async(req, res) => {
     try{
@@ -19,8 +19,29 @@ const postData=async(req, res) => {
     const newCrud = await Request(req.body)
     
    try{
-    //    res.send(newCrud)
-    console.log('Params', newCrud);
+    let transporter = nodemailer.createTransport({
+                    service: 'gmail', //what type of servise is using
+                    auth: {
+                        user: 'asanthosh421@gmail.com', // that is organiser mail id
+                        pass: '6382659635As', //that is organaiser mail password
+                    },
+                });
+                
+                const compose = {
+                    from: 'asanthosh421@gmail.com',
+                    to: newCrud.Mail,
+                    subject: "Conformation ✔",
+                    html: `<div>hello sir.<b>I am ${newCrud.Name}</b> Today I will condect ${newCrud.Meterial}
+                           sale Event in this address ${newCrud.Address}.
+                           so please allow for my events <button onclick="()=>{}">click</button></div>`,
+                }
+                transporter.sendMail(compose, (err) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log('message wass send succesfully')
+                    }
+                })
 
     newCrud.save((err, data) => {
         if(err){
