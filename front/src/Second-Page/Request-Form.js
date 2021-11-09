@@ -11,9 +11,9 @@ function Request() {
     const [meterial,upmeterial]=useState('');
     const [rs,uprs]=useState('');
 
-    const store=async()=>{
+    const store=()=>{
 
-        await axios.post('http://localhost:8000/request', {
+            axios.post('http://localhost:8000/request', {
             Name:name,
             Mail:mail,
             Address:address,
@@ -29,8 +29,9 @@ function Request() {
                     upaadhar('')
                     upmeterial('')
                     uprs('')
+                }).catch(err=>{
+                    console.log('errr')
                 })
-        await axios.post('http://localhost:8000/mail').then(res=>console.log('succes')).catch(console.log('error'));
     }
     return (
         <div>

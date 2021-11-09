@@ -22,6 +22,9 @@ function Addtask() {
             console.log('error')
         }
     }
+const put=()=>{
+    axios.put(`http://localhost:8000/api/${id}`)
+}
     useEffect(() => { names() }, [name])
     const logindata = () => {
 
